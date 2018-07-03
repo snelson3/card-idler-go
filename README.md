@@ -1,0 +1,1 @@
+A prototype of a Idle game based around opening booster packs in a Trading Card Game. The main purpose of this is to learn Go and try out different ideas for my game. Once the game is ready for a graphic interface, it will probably be ported to a real game engine like Unity or Unreal
