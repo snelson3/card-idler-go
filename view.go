@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"strconv"
 )
 
 func readLine() string {
@@ -21,9 +22,13 @@ func readLine() string {
 
 func displayInfo(s State) {
 	fmt.Println("###########################")
-	fmt.Printf("You have opened %d packs (worth %d)\n", s.stats.packsOpened, getInventoryValue(s))
-	if s.shop[0].held > 0 {
-		fmt.Printf("Number of %s: %d\n", s.shop[0].name, s.shop[0].held)
+	fmt.Printf("You have opened %d packs (worth %d)\n", s.stats.packs_opened, getInventoryValue(s))
+	fmt.Printf("You have %d moneys\n", )
+	for a := range s.shop {
+		selcracker := s.shop[a]
+		if selcracker.held > 0 {
+			fmt.Printf("Number of %s (Price %f): %d\n", selcracker.name, selcracker.price, selcracker.held)
+		}
 	}
 	fmt.Println("###########################")
 }
@@ -36,15 +41,30 @@ func main() {
 		update(&game)
 		displayInfo(game)
 		fmt.Println("What would you like to do?")
-		switch command = strings.ToLower(readLine()); command {
+		line := strings.Fields(strings.ToLower(readLine()))
+		switch command = line[0]; command {
 		case "quit":
 			stopGame(&game)
 			return
 		case "crack":
 			fmt.Println("You cracked a pack!")
 			crackPacks(&game, 1)
+		case "sell":
+			fmt.Println("You are selling all your cards")
+			sell(&game)
 		case "buy":
-			fmt.Println(buy(&game))
+			tobuy, _ := strconv.Atoi(line[1])
+			buy(&game, tobuy)
 		}
 	}
 }
+
+// todo 
+// fix runtime errors
+// 10 minutes to gather as much money as you can (or crack as many packs as you can)
+// high score chart at the end that saves to file
+// basic dueling feature not sure what I want to do (dials to alter about how much of each rarity to use per duel etc)
+// maybe a few other things to make it more interesting, but not making it a huge task to transfer over
+// then make it an actual game with a visual display and sounds and stuff
+// can you make it play through a website using WASM?
+// "seasons", achievements, upgrades, etc
