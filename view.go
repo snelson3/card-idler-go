@@ -39,50 +39,40 @@ func displayInfo(s State) {
 	fmt.Println("###########################")
 }
 
-func main() {
-	fmt.Println("Welcome to cardsim")
-	game := initGame()
+func commandLineAction(game *State) {
+	fmt.Println(`What would you like to do?\n
+	crack // manually open a pack 
+	sell // sell all of your cards for money
+	buy x // buy the xth autocracker if you have enough money
+	quit // quit the game (no saving right now)
+	`)
+	line := strings.Fields(strings.ToLower(readLine()))
 	var command string
-	for game.running {
-		update(&game)
-		displayInfo(game)
-		fmt.Println(`What would you like to do?\n
-		crack // manually open a pack 
-		sell // sell all of your cards for money
-		buy x // buy the xth autocracker if you have enough money
-		quit // quit the game (no saving right now)
-		`)
-		line := strings.Fields(strings.ToLower(readLine()))
-		switch command = line[0]; command {
-		case "quit":
-			stopGame(&game)
-			return
-		case "crack":
-			fmt.Println("You cracked a pack!")
-			crackPacks(&game, 1)
-		case "sell":
-			fmt.Println("You are selling all your cards")
-			sell(&game)
-		case "buy":
-			tobuy, _ := strconv.Atoi(line[1])
-			buy(&game, tobuy)
-		}
-
-
+	switch command = line[0]; command {
+	case "quit":
+		stopGame(game)
+		return
+	case "crack":
+		fmt.Println("You cracked a pack!")
+		crackPacks(game, 1)
+	case "sell":
+		fmt.Println("You are selling all your cards")
+		sell(game)
+	case "buy":
+		tobuy, _ := strconv.Atoi(line[1])
+		buy(game, tobuy)
 	}
-	fmt.Printf("Game done")
 }
 
 // todo 
-// price of buying autocrackers goes up for each one
 // 10 minutes to gather as much money as you can (or crack as many packs as you can)
 // high score chart at the end that saves to file
+// save/load/offline progress
 // sell as a percentage
 // basic dueling feature not sure what I want to do (dials to alter about how much of each rarity to use per duel etc)
 // seasons (mvp autocracker?) + some bonuses + (pack odds change each season, something about dueling, and stats/order/etc of autocrackers)
 // upgrades / synergies / random chance
 // achievements
-// save/load/offline progress
 // then make it an actual game with a visual display and sounds and stuff
 // can you make it play through a website using WASM?
 // basic working prototype for my friends to get feedback on

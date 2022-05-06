@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math/rand"
 	"time"
 )
 
@@ -60,27 +59,6 @@ func update(s *State) {
 	s.last_time = tick
 }
 
-func initGame() State {
-	// eventually load the state from a file here
-	rand.Seed(time.Now().UTC().UnixNano())
-	s := State{
-		last_time: time.Now().UTC().Unix(),
-		running:  true,
-		stats:    Stats{},
-		inventory: Inventory{
-			card_types: []Rarity{
-				{name: "Commons", value: COMMONVAL, chance: COMMONCHANCE},
-				{name: "Rare", value: RAREVAL, chance: RARECHANCE},
-			},
-		},
-		shop: []AutoCracker{
-			AutoCracker{name: "Sweaty Nerd", rate: 1, price: 50.0},
-			AutoCracker{name: "Shop Lackey", rate: 2, price: 500.0},
-			AutoCracker{name: "Auto Sorter", rate: 5, price: 10000.0},
-		},
-	}
-	return s
-}
 
 func stopGame(s *State) {
 	// Eventually save the state to a file here
